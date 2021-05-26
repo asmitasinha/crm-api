@@ -8,6 +8,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import org.apache.commons.dbcp2.BasicDataSource;
+
 import com.vertisage.crm.model.UserInfo;
 
 public class DBUtil {
@@ -29,9 +33,21 @@ public class DBUtil {
 			
 		return con;
 	}
+	public static Connection getPooledConnection() throws SQLException {
+		
+		BasicDataSource dataSource= new BasicDataSource();
+		dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		dataSource.setUrl("jdbc:mysql://localhost:3306/crmdb");
+		dataSource.setUsername("root");
+		dataSource.setPassword("Krrish02");
+		dataSource.setMaxTotal(20);
+		Connection con =dataSource.getConnection();
+			
+		return con;
+	}
 	
 	public static List<UserInfo> getUserInfo() throws SQLException {
-		Connection con=getConnection();
+		Connection con=getPooledConnection();
 		Statement stmt=con.createStatement();
 		ResultSet rs= stmt.executeQuery("select * from user");
 		ArrayList<UserInfo> userList= new ArrayList<UserInfo>();
