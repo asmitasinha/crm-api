@@ -2,3 +2,7 @@
 spring:
   thymeleaf.cache: false
   main.show-banner: false
+server:
+  port: 8082
+  servlet:
+    context-path: /crmapi
